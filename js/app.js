@@ -5,82 +5,40 @@ import {
   cloneDeep, findIndex, orderBy, keys, values, transforms
 } from 'lodash';
 import Bookshelf from './bookshelf.js';
+// import ReactPaginate from 'react-paginate';
+import Pagination from 'react-js-pagination';
 
 import Header from './layout/header.js';
 import Footer from './layout/Footer.js';
+import Books from './layout/Books.js';
+import {
+  Paginator, Paginate 
+} from './helpers';
 
 const app = document.getElementById('app');
 
 
 
 
-var Books = React.createClass({
+export default class Main extends React.Component{
+  constructor(props){
+    super(props);
 
-  getInitialState : function () {
-    return ({});
-  },
-  componentDidMount : function () {
-
-    if (this.props.item != null) {
-      this.setState(this.props.item);
-    }
-
-  },
-  render : function () {
-
-    var authors = "";
-
-    if (this.state.authors != null) {
-      for (var i = 0; i < this.state.authors.length; i++) {
-
-        if (i > 1) {
-          authors = ", " + this.state.authors[i];
-        } else {
-          authors = this.state.authors[i];
-        }
+    this.state = {
+      items:[],
+      pagination: { 
+        page: 1,
+        perPage: 5
       }
-    }
+    };
 
-    var descrip = "...";
+    this.localSubmit = this.localSubmit.bind(this);
 
-    if (this.state.description != null) {
-      descrip = this.state.description.substring(0, 180) + "...";
-    }
 
-    var id = "";
-
-    if (this.props.identifier != null) {
-      id = "book-" + this.props.identifier;
-    }
-
-    return (
-
-      <figure>
-        <div className="book" id={id}></div>
-        <div className="buttons"><a href={this.state.previewLink} target="_blank">Preview</a><a href="#">Details</a></div>
-        <figcaption><h2>{this.state.title}<span>{authors}</span></h2></figcaption>
-        <div className="details">
-          <ul>
-            <li>{descrip}</li>
-            <li>{this.state.publishedDate}</li>
-            <li>{this.state.publisher}</li>
-            <li>{this.state.pageCount} pages</li>
-          </ul>
-        </div>
-      </figure>
-
-    );
   }
 
-});
 
-var Main = React.createClass({
-
-  getInitialState : function () {
-    return ({items: []});
-  },
-
-  localSubmit : function (search) {
+  localSubmit(search) {
 
     this.setState({items: []});
     var component = this;
@@ -106,9 +64,9 @@ var Main = React.createClass({
 
     });
 
-  },
+  }
 
-  render : function () {
+  render () {
 
     var books = [];
     var content;
@@ -138,7 +96,7 @@ var Main = React.createClass({
 
   }
 
-});
+}
 
 ReactDOM.render(<Main />, document.getElementById("app"));
 
