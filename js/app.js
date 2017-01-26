@@ -26,9 +26,8 @@ export default class Main extends React.Component{
     };
 
     this.localSubmit = this.localSubmit.bind(this);
-    this.onPerPage = this.onPerPage.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
+    // this.onPerPage = this.onPerPage.bind(this);
+     this.handlePageClick = this.handlePageClick.bind(this);
 
   }
 
@@ -61,14 +60,15 @@ export default class Main extends React.Component{
     });
   }
 
-  handlePageClick = (data) => {
-    let selected = data.selected;
+  handlePageClick(component){
+    console.log(component);
+    let selected = component.selected;
     let offset = Math.ceil(selected * this.props.perPage);
-
+    console.log("the offset is:"+offset)
     this.setState({offset: offset}, () => {
-      this.loadCommentsFromServer();
+      {this.props.item}
     });
-  };
+  }
 
   onSelect(page) {
     const pages = Math.ceil(
@@ -84,25 +84,12 @@ export default class Main extends React.Component{
       }
     });
   }
-  onPerPage(value) {
-    this.setState({
-      pagination: {
-        page:this.state.pagination,
-        perPage: parseInt(value, 10)
-      }
-    });
-  }
   render () {
     const pages = Math.ceil(
       this.state.items.length / 9
     );
     console.log("length:"+this.state.items.length);
     console.log(pages);
-    // const {
-    //   pagination
-    // } = this.state;
-    // const paginated = compose(
-    //   paginate(pagination));
     var books = [];
     var content;
 
@@ -129,8 +116,8 @@ export default class Main extends React.Component{
                breakClassName={"break-me"}
                pageCount={this.state.pageCount}
                marginPagesDisplayed={2}
-               pageRangeDisplayed={3}
-               onPageChange={this.handlePageClick.bind(this)}
+               pageRangeDisplayed={5}
+               onPageChange={this.handlePageClick}
                containerClassName={"pagination"}
                subContainerClassName={"pages pagination"}
                activeClassName={"active"} />
@@ -143,5 +130,5 @@ export default class Main extends React.Component{
 
 }
 
-ReactDOM.render(<Main  />, document.getElementById("app"));
+ReactDOM.render(<Main  perPage={10}/>, document.getElementById("app"));
 

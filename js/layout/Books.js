@@ -12,6 +12,7 @@ var Books = React.createClass({
     if (this.props.item != null) {
       this.setState(this.props.item);
     }
+    // console.log(this.props.item);
 
   },
   render : function () {
