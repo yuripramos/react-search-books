@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
+//simple footer, need improvements
 
 var Footer = React.createClass({
 

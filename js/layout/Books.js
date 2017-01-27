@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import Paper from '../../node_modules/material-ui/Paper';
+//Here is where each book is generated after the AJAX call in the app.js
 
 var Books = React.createClass({
 

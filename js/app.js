@@ -2,15 +2,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { compose } from 'redux';
-import {
-  cloneDeep, findIndex, orderBy, keys, values, transforms
-} from 'lodash';
 //UI
 import injectTapEventPlugin from 'react-tap-event-plugin';// http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 import MuiThemeProvider from '../node_modules/material-ui/styles/MuiThemeProvider';
 import getMuiTheme from '../node_modules/material-ui/styles/getMuiTheme';
-
+import * as Colors from '../node_modules/material-ui/styles/colors';
 //Components and sctructure
 import Bookshelf from './bookshelf.js';
 import ReactPaginate from 'react-paginate';
@@ -18,10 +15,10 @@ import AppBar from '../node_modules/material-ui/AppBar';
 import Header from './layout/header.js';
 import Footer from './layout/Footer.js';
 import Books from './layout/Books.js';
-// import CurrentBook from './layout/currentBook';
-// import BookList from './layout/bookList';
-import * as Colors from '../node_modules/material-ui/styles/colors';
 
+
+//This is the app component, the main component that loads other components that are mandatory for my application works, 
+//heres is included my components of UI, Structure, all the "dumb" components and "smart" components
 const app = document.getElementById('app');
 
 const muiTheme = getMuiTheme({

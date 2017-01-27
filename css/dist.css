@@ -440,8 +440,7 @@ body {
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 400;
-      font-size: 0.4em;
-      font-family: "Lato", sans-serif; }
+      font-size: 0.4em; }
       .bookshelf figcaption h2 span::before {
         position: absolute;
         top: 0;
@@ -584,8 +583,7 @@ body {
 .page-layout-1 h3 {
   text-align: center;
   font-weight: 400;
-  font-size: 3em;
-  font-family: "Sacramento", serif; }
+  font-size: 3em; }
   .page-layout-1 h3 span {
     display: block;
     padding: 5px 0 15px;
@@ -593,14 +591,12 @@ body {
     border-bottom: 1px solid #333;
     text-transform: uppercase;
     font-size: 3em;
-    font-family: "Six Caps", sans-serif;
     line-height: 1; }
 
 .page-layout-1 p {
   padding: 0 10px;
   text-align: right;
-  font-style: italic;
-  font-family: "Cardo", serif; }
+  font-style: italic; }
 
 .page-layout-2 {
   background: -webkit-linear-gradient(left, #64696a 50%, white 50%);
@@ -941,7 +937,11 @@ body {
 .bookshelf figure {
   z-index: 100;
   -webkit-transition: z-index 0s 0.3s;
-  transition: z-index 0s 0.3s; }
+  transition: z-index 0s 0.3s;
+  -webkit-box-shadow: -4px 2px 91px -19px rgba(171, 171, 171, 0.34);
+  -moz-box-shadow: -4px 2px 91px -19px rgba(171, 171, 171, 0.34);
+  box-shadow: -4px 2px 91px -19px rgba(171, 171, 171, 0.34);
+  max-height: 500px; }
   .bookshelf figure.details-open {
     z-index: 101;
     -webkit-transition: none;
@@ -1275,7 +1275,7 @@ a {
 .related {
   margin-top: 5em;
   color: #fff;
-  background: #333;
+  background: #00BCD4;
   text-align: center;
   font-size: 1.25em;
   padding: 3em 0;
