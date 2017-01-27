@@ -8,7 +8,7 @@ var Footer = React.createClass({
     return(
 
       <div className="related">
-        <p>Created by :<a href="https://twitter.com/fethica" style={{color: '#FFF'}} target="_blank">Fethi El Hassasna</a></p>
+      <p> Made with <span className="glyphicon glyphicon-heart"></span>  by <a href="http://github.com/yuripramos" target="_blank" className="mysign">Yuri Ramos</a></p>
 				<a href="http://tympanus.net/codrops/2014/01/14/look-inside-book-preview-with-bookblock/" target="_blank">
 					<img src="../img/bookpreview.png" />
 					<h3>Book Preview</h3>
@@ -21,9 +21,7 @@ var Footer = React.createClass({
 					<img src="../img/googlebooks.png" />
 					<h3>Google Books API</h3>
 				</a>
-
 			</div>
-
     );
 
   }

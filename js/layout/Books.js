@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-
+import Paper from '../../node_modules/material-ui/Paper';
 
 var Books = React.createClass({
 
@@ -15,6 +15,9 @@ var Books = React.createClass({
     // console.log(this.props.item);
 
   },
+  toggleFavorite(){
+    this.props.onFavoriteToggle(this.props.Books);
+  },
   render : function () {
 
     var authors = "";
@@ -28,6 +31,11 @@ var Books = React.createClass({
           authors = this.state.authors[i];
         }
       }
+    }
+    var starClassName = "glyphicon glyphicon-star-empty";
+
+    if(this.props.favorite){
+      starClassName = "glyphicon glyphicon-star";
     }
 
     var descrip = "...";
@@ -44,9 +52,10 @@ var Books = React.createClass({
 
     return (
 
-      <figure>
+      <figure >
         <div className="book" id={id}></div>
         <div className="buttons"><a href={this.state.previewLink} target="_blank">Preview</a><a href="#">Details</a></div>
+       
         <figcaption><h2>{this.state.title}<span>{authors}</span></h2></figcaption>
         <div className="details">
           <ul>

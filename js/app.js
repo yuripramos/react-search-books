@@ -1,37 +1,64 @@
+//Basics
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { compose } from 'redux';
 import {
   cloneDeep, findIndex, orderBy, keys, values, transforms
 } from 'lodash';
+//UI
+import injectTapEventPlugin from 'react-tap-event-plugin';// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+import MuiThemeProvider from '../node_modules/material-ui/styles/MuiThemeProvider';
+import getMuiTheme from '../node_modules/material-ui/styles/getMuiTheme';
+
+//Components and sctructure
 import Bookshelf from './bookshelf.js';
 import ReactPaginate from 'react-paginate';
-
+import AppBar from '../node_modules/material-ui/AppBar';
 import Header from './layout/header.js';
 import Footer from './layout/Footer.js';
 import Books from './layout/Books.js';
-// import {Paginator, paginate } from './helpers';
+// import CurrentBook from './layout/currentBook';
+// import BookList from './layout/bookList';
+import * as Colors from '../node_modules/material-ui/styles/colors';
 
 const app = document.getElementById('app');
 
-
-
+const muiTheme = getMuiTheme({
+ palette: {
+    palette: {
+      textColor: Colors.darkBlack,
+      primary1Color: Colors.white,
+      primary2Color: Colors.indigo700,
+      accent1Color: Colors.redA200,
+      pickerHeaderColor: Colors.darkBlack,
+      alternateTextColor: Colors.redA200
+    },
+  },
+  appBar: {
+    height: 50,
+  },
+});
+const page_size = 9;
 export default class Main extends React.Component{
   constructor(props){
     super(props);
 
     this.state = {
       items:[],
-      offset:0
+      offset:0,
+      favorites:[],
+      currentPage:1
     };
 
     this.localSubmit = this.localSubmit.bind(this);
-    // this.onPerPage = this.onPerPage.bind(this);
-     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this.isBookInFavorites = this.isBookInFavorites.bind(this);
 
+    if(localStorage.favorites){
+      favorites = JSON.parse(localStorage.favorites);
+    }
   }
-
-
   localSubmit(search) {
 
     this.setState({items: []});
@@ -70,23 +97,64 @@ export default class Main extends React.Component{
     });
   }
 
-  onSelect(page) {
-    const pages = Math.ceil(
-      this.state.items.length / 9
-    );
+  toggleFavorite(Books){
 
-    console.log(pages);
+    if(this.isBookInFavorites(Books)){
+      this.removeFromFavorites(Books);
+    }
+    else{
+      this.addToFavorites(Books);
+    }
+
+  }
+
+  addToFavorites(Books){
+
+    var favorites = this.state.favorites;
+
+    favorites.push({
+      Books: Books,
+      timestamp: Date.now()
+    });
 
     this.setState({
-      pagination: {
-        perPage:this.state.pagination,
-        page: Math.min(Math.max(page, 1), pages)
-      }
+      favorites: favorites
     });
+
+    localStorage.favorites = JSON.stringify(favorites);
   }
+
+  removeFromFavorites(Books){
+
+    var favorites = this.state.favorites;
+    var index = -1;
+
+    for(var i = 0; i < favorites.length; i++){
+
+      if(favorites[i].Books == Books){
+        index = i;
+        break;
+      }
+
+    }
+  }
+  isBookInFavorites(Books){
+
+    var favorites = this.state.favorites;
+
+    for(var i = 0; i < favorites.length; i++){
+
+      if(favorites[i].Books == Books){
+        return true;
+      }
+
+    }
+    return false;
+  }
+
   render () {
     const pages = Math.ceil(
-      this.state.items.length / 9
+      this.state.items.length / page_size
     );
     console.log("length:"+this.state.items.length);
     console.log(pages);
@@ -94,7 +162,9 @@ export default class Main extends React.Component{
     var content;
 
     books = this.state.items.map(function(book) {
-      return <Books key={book.id} item={book.volumeInfo} identifier={book.id} />;
+      return <Books key={book.id} item={book.volumeInfo} identifier={book.id}  
+    />;
+
     });
 
     if (books.length > 0) {
@@ -104,26 +174,31 @@ export default class Main extends React.Component{
     }
 
     return (
-      <div>
-      <Header localSubmit={this.localSubmit}/>
-        <div className="main">
-  				<div id="bookshelf" className="bookshelf">
-            {content}
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div>
+        <AppBar title="Book Search using React with Material UI"/>
+        <Header localSubmit={this.localSubmit}/>
+          <div className="main">
+    				<div id="bookshelf" className="bookshelf">
+              {content}
+            </div>
+            <div className="text-center">
+              <ReactPaginate previousLabel={"previous"}
+                   nextLabel={"next"}
+                   breakLabel={<a href="">...</a>}
+                   breakClassName={"break-me"}
+                   pageCount={this.state.pageCount}
+                   marginPagesDisplayed={2}
+                   pageRangeDisplayed={3}
+                   onPageChange={this.handlePageClick}
+                   containerClassName={"pagination"}
+                   subContainerClassName={"pages pagination"}
+                   activeClassName={"active"} />
+            </div>
           </div>
-          <ReactPaginate previousLabel={"previous"}
-               nextLabel={"next"}
-               breakLabel={<a href="">...</a>}
-               breakClassName={"break-me"}
-               pageCount={this.state.pageCount}
-               marginPagesDisplayed={2}
-               pageRangeDisplayed={5}
-               onPageChange={this.handlePageClick}
-               containerClassName={"pagination"}
-               subContainerClassName={"pages pagination"}
-               activeClassName={"active"} />
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </MuiThemeProvider>
     );
 
   }
