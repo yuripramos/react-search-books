@@ -17,6 +17,11 @@ import Footer from './layout/Footer.js';
 import Books from './layout/Books.js';
 
 
+
+
+
+
+
 //This is the app component, the main component that loads other components that are mandatory for my application works, 
 //heres is included my components of UI, Structure, all the "dumb" components and "smart" components
 const app = document.getElementById('app');
